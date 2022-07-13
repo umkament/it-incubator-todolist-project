@@ -26,7 +26,13 @@ export function App() {
     setTasks(newTasks)
   }
 
-  function changeTask (value: FilterValueType) {
+  function changeTaskStatus(taskID: string, isDone:boolean) {
+    let task = tasks.find(t=>t.id === taskID)
+    if(task){task.isDone=isDone}
+    setTasks([...tasks])
+  }
+
+  function changeTasksFilter (value: FilterValueType) {
     setFilter(value)
   }
 
@@ -44,10 +50,11 @@ export function App() {
                <Todolist
                   title="What to show"
                   tasks={tasksForTodolist}
-                  removeTask={removeTask}
-                  changeTask={changeTask}
+                  filter={filter}
                   addTask={addTask}
-
+                  removeTask={removeTask}
+                  changeTasksFilter={changeTasksFilter}
+                  changeTaskStatus={changeTaskStatus}
                />
             </div>
         </div>
