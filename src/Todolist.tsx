@@ -21,22 +21,25 @@ export type PropsType = {
 export function Todolist(props: PropsType) {
 
   let [taskTitle, setTaskTitle] = useState("")
-  let [error, setError] = useState<string | null>(null)
+  let [error, setError] = useState<string>('')
 
   const taskTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTaskTitle(e.currentTarget.value)
+   /* if (e.currentTarget.value.trim() === "") {
+      setError("title is required")
+    }*/ // это условие лишнее
   }
   const taskTitleKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null)
-    if (e.charCode === 13) {
+
+    setError('')
+    if (e.charCode === 13 && taskTitle.trim() !== "") {
       props.addTask(taskTitle.trim());
       setTaskTitle("")
     }
-    if (taskTitle.trim() === "") {
+    if (e.charCode === 13 && taskTitle.trim() === ""){
       setError("title is required")
-    } else {
-     return;
     }
+
   }
   const addTaskButtonClickHandler = () => {
     if (taskTitle.trim() !== "") {

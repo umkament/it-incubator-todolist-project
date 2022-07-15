@@ -48,7 +48,7 @@ export function App() {
         <div className="App">
             <div>
                <Todolist
-                  title="What to show"
+                  title="What to watch"
                   tasks={tasksForTodolist}
                   filter={filter}
                   addTask={addTask}
