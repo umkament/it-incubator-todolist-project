@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {FilterValueType} from "./App";
 import './App.css';
+import {AddItemForm} from "./AddItemForm";
 
 export type TasksType = {
   id: string
@@ -22,35 +23,6 @@ export type PropsType = {
 
 export function Todolist(props: PropsType) {
 
-  let [taskTitle, setTaskTitle] = useState("")
-  let [error, setError] = useState<string>('')
-
-  const taskTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setTaskTitle(e.currentTarget.value)
-    /* if (e.currentTarget.value.trim() === "") {
-       setError("title is required")
-     }*/ // это условие лишнее
-  }
-  const taskTitleKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-
-    setError('')
-    if (e.charCode === 13 && taskTitle.trim() !== "") {
-      props.addTask(taskTitle.trim(), props.id);
-      setTaskTitle("")
-    }
-    if (e.charCode === 13 && taskTitle.trim() === "") {
-      setError("title is required")
-    }
-
-  }
-  const addTaskButtonClickHandler = () => {
-    if (taskTitle.trim() !== "") {
-      props.addTask(taskTitle.trim(), props.id);
-      setTaskTitle("")
-    } else {
-      setError("title is required")
-    }
-  }
 
   const removeTodolistHandler = () => {props.removeTodolist(props.id)}
 
@@ -64,21 +36,16 @@ export function Todolist(props: PropsType) {
     props.changeTasksFilter("active", props.id)
   }
 
+const addTask = (title: string) => {
+    props.addTask(title, props.id)
+  }
 
   return (
      <div>
        <h3>{props.title} <button onClick={removeTodolistHandler}>x</button></h3>
-
-       <div>
-         <input
-            value={taskTitle}
-            onChange={taskTitleChangeHandler}
-            onKeyPress={taskTitleKeyPressHandler}
-            className={error ? "error" : ""}
-         />
-         <button onClick={addTaskButtonClickHandler}>+</button>
-         {error && <div className="error-message">{error}</div>}
-       </div>
+       <AddItemForm
+         addItem={addTask}
+       />
        <ul>
          {props.tasks.map(t => {
 
@@ -107,3 +74,13 @@ export function Todolist(props: PropsType) {
      </div>
   );
 }
+
+
+export type EditableSpanPropsType = {
+
+}
+
+export function EditableSpan (props: EditableSpanPropsType) {
+
+}
+
