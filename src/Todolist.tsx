@@ -1,7 +1,8 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {FilterValueType} from "./App";
 import './App.css';
 import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 export type TasksType = {
   id: string
@@ -19,6 +20,8 @@ export type PropsType = {
   changeTasksFilter: (value: FilterValueType, todolistId: string) => void
   changeTaskStatus: (taskID: string, isDone: boolean, todolistId: string) => void
   removeTodolist: (todolistId: string) => void
+  changeTaskTitle: (taskID: string, newTitle: string, todolistId: string)=> void
+  changeTodolistTitle: (todolistId: string, newTitle: string)=> void
 }
 
 export function Todolist(props: PropsType) {
@@ -39,10 +42,15 @@ export function Todolist(props: PropsType) {
 const addTask = (title: string) => {
     props.addTask(title, props.id)
   }
+  const onChangeTodolistTitleHandler = (newTitle: string)=> {
+    props.changeTodolistTitle(props.id, newTitle)
+
+  }
 
   return (
      <div>
-       <h3>{props.title} <button onClick={removeTodolistHandler}>x</button></h3>
+       <h3><EditableSpan title={props.title} onChange={onChangeTodolistTitleHandler}/>
+         <button onClick={removeTodolistHandler}>x</button></h3>
        <AddItemForm
          addItem={addTask}
        />
@@ -56,10 +64,17 @@ const addTask = (title: string) => {
              props.changeTaskStatus(t.id, e.currentTarget.checked, props.id)
            }
 
+           const changeTaskTitleHandler = (newTitle: string) => {
+             props.changeTaskTitle(t.id, newTitle, props.id)
+           }
+
            return <li key={t.id} className={t.isDone ? "is-done" : ""}>
              <button onClick={removeTaskHandler}>x</button>
              <input type="checkbox" onChange={changeTaskStatusHandler} checked={t.isDone}/>
-             <span>{t.title}</span>
+             <EditableSpan
+                title={t.title}
+                onChange={changeTaskTitleHandler}
+             />
            </li>
          })}
        </ul>
@@ -75,12 +90,4 @@ const addTask = (title: string) => {
   );
 }
 
-
-export type EditableSpanPropsType = {
-
-}
-
-export function EditableSpan (props: EditableSpanPropsType) {
-
-}
 
