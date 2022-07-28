@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from "react";
 
 export type EditableSpanPropsType = {
   title: string
-  onChange: (newTaskTitle: string) => void
+  onChange: (newTitle: string) => void
 
 }
 

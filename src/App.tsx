@@ -47,10 +47,10 @@ export function App() {
     setTasks({...tasksObj})
   }
 
-  function addTask(title: string, todolostId: string) {
-    let tasks = tasksObj[todolostId]
+  function addTask(title: string, todolistId: string) {
+    let tasks = tasksObj[todolistId]
     let newTask = {id: v1(), title: title, isDone: false}
-    tasksObj[todolostId] = [...tasks, newTask]
+    tasksObj[todolistId] = [...tasks, newTask]
     setTasks({...tasksObj})
   }
 
