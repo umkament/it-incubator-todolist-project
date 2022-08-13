@@ -1,45 +1,25 @@
 import {TaskStateType} from "../App";
+import {removeTaskAC, tasksReducer} from "./tasks-reducer";
 
-export type ActionsType = Action1Type | Action2Type
-
-type Action1Type = {
-  type: '1'
-  id: string
-}
-type Action2Type = {
-  type: '2'
-  title: string
-}
-
-// меня вызовут и дадут мне стейт (почти всегда объект)
-// и инструкцию (action, тоже объект)
-// согласно прописанному type в этом action (инструкции) я поменяю state
-
-  export const tasksReducer = (state: TaskStateType, action: ActionsType): TaskStateType => {
-    switch (action.type) {
-      case '1': {
-        return {...state};
-      }
-      case '2': {
-        return {...state}
-      }
-  default:
-    throw new Error('I don\'t understand this type')
+test('correct task should be removed from correct array', ()=>{
+  const startState: TaskStateType = {
+    "todolistID1":[
+       {id: "1", title: "CSS", isDone: false},
+       {id: "2", title: "HTML", isDone: false},
+       {id: "3", title: "JS", isDone: false}
+       ],
+       "todolistID2":[
+       {id: "1", title: "milk", isDone: false},
+       {id: "2", title: "bread", isDone: false},
+       {id: "3", title: "honey", isDone: false}
+     ]
   }
+  const action = removeTaskAC("todolistID2","2")
+  const endState = tasksReducer(startState,action)
+
+  expect(endState['todolistID1'].length).toBe(3)
+  expect(endState['todolistID2'].length).toBe(2)
+  expect(endState['todolistID2'].every(t=> t.id != "2")).toBeTruthy()
+
 }
-
-
-
-
-export const action1AC = (todolistID: string): Action1Type => {
-  return {
-    type: "1",
-    id: todolistID
-  }
-}
-export const action2AC = (title: string): Action2Type => {
-  return {
-    type: "2",
-    title: title
-  }
-}
+)
