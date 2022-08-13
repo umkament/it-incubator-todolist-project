@@ -1,15 +1,17 @@
 import {TaskStateType} from "../App";
+import {v1} from "uuid";
 
 
-export type ActionsType = RemoveTaskActionType | Action2Type
+export type ActionsType = RemoveTaskActionType | AddTaskActionType
 
 type RemoveTaskActionType = {
   type: 'REMOVE-TASK'
   todolistID: string
   taskID: string
 }
-type Action2Type = {
-  type: '2'
+type AddTaskActionType = {
+  type: 'ADD-TASK'
+  todolistID: string
   title: string
 }
 
@@ -26,8 +28,13 @@ type Action2Type = {
         stateCopy[action.todolistID] = filteredTasks
         return stateCopy;
       }
-      case '2': {
-        return {...state}
+      case 'ADD-TASK': {
+        const stateCopy = {...state}
+        const tasks = stateCopy[action.todolistID]
+        const newTask = {id: v1(), title: action.title, isDone: false}
+        const newArrayOfTasks = [newTask, ...tasks]
+        stateCopy[action.todolistID] = newArrayOfTasks
+        return stateCopy
       }
   default:
     throw new Error('I don\'t understand this type')
@@ -38,13 +45,8 @@ type Action2Type = {
 
 
 export const removeTaskAC = (todolistID: string,taskID: string ): RemoveTaskActionType => {
-  return {
-    type: "REMOVE-TASK", todolistID: todolistID, taskID: taskID
-  }
+  return {type: "REMOVE-TASK", todolistID: todolistID, taskID: taskID}
 }
-export const action2AC = (title: string): Action2Type => {
-  return {
-    type: "2",
-    title: title
-  }
+export const addTaskAC = (todolistID: string, title: string): AddTaskActionType => {
+  return { type: "ADD-TASK", todolistID, title}
 }
