@@ -15,7 +15,7 @@ test('correct task should be removed from correct array', ()=>{
        {id: "3", title: "honey", isDone: false}
      ]
   }
-  const action = removeTaskAC("todolistID2","2")
+  const action = removeTaskAC("2","todolistID2")
   const endState = tasksReducer(startState,action)
 
   expect(endState['todolistID1'].length).toBe(3)
@@ -39,7 +39,7 @@ test('new task should be added in correct array', ()=>{
      }
 
 
-     const action = addTaskAC("todolistID2", "juse")
+     const action = addTaskAC("juse", "todolistID2")
      const endState = tasksReducer(startState,action)
 
      expect(endState['todolistID1'].length).toBe(3)
